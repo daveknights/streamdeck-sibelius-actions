@@ -15,16 +15,35 @@
 <body>
     <div class="sdpi-wrapper">
         <form id="property-inspector">
-            <div class="sdpi-item">
-                <div data-localize class="sdpi-item-label" title="My name">Plugin name</div>
-                <input data-localize id="plugin-name" class="sdpi-item-value" name="plugin-name" type="text" value="" placeholder="MyPluginName" required />
+            <div class="sdpi-item sibelius-category-dropdown">
+                <div class="sdpi-item">
+                    <div class="sdpi-item-label">Category</div>
+                    <select class="sdpi-item-value select sibelius-elem-full" id="sibelius-plugin-category">
+                    </select>
+                </div>
+            </div>
+            <div class="sdpi-item sibelius-plugin-dropdown">
+                <div class="sdpi-item">
+                    <div class="sdpi-item-label">Name</div>
+                    <select class="sdpi-item-value select sibelius-elem-full" id="sibelius-plugin-name">
+                    </select>
+                </div>
             </div>
         </form>
-        <div class="sdpi-item">
-            <div class="sdpi-item-label" data-localize title="My button">Store</div>
-            <button class="sdpi-item-value" data-localize onclick="save()">
-                Save name
-            </button>
+        <hr>
+        <div class="sdpi-item" id="my_private_file_selector">
+            <div class="sdpi-item-label">Select File</div>
+            <div class="sdpi-item-group file" id="sibelius-filepicker-group">
+                <input class="sdpi-item-value" id="sibelius-file" type="file" accept=".json, application/JSON">
+                <label class="sdpi-file-info " for="sibelius-file">no file...</label>
+                <label class="sdpi-file-label" for="sibelius-file">Choose file...</label>
+            </div>
+        </div>
+        <div class="sdpi-item alignTop">
+            <div class="sdpi-item-label info" id="sibelius-upload-info"></div>
+            <strong class="sdpi-item-value">
+                Each time you upload a file containing plugin names, a new connection will need to be made with Sibelius.
+            </strong>
         </div>
     </div>
 
