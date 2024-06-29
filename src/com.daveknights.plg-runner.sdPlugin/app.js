@@ -2,13 +2,14 @@
 /// <reference path="libs/js/stream-deck.js" />
 
 const myAction = new Action('com.daveknights.plg-runner.action');
-const globalContext = 'comSibeliusPluginNames';
+const globalContext = 'comSibeliusPluginContext';
 const connectMsg = {
     "message": "connect",
     "clientName": "StreamDeckPlgRunner",
     "handshakeVersion": "1.0",
     "plugins": [],
 };
+let globalSettings = {};
 let sibsocket = '';
 let sibeliusToken = '';
 let allPluginNames = [];
@@ -21,24 +22,31 @@ $SD.onConnected(({ actionInfo, appInfo, connection, messageType, port, uuid }) =
 });
 
 $SD.onDidReceiveGlobalSettings(({payload}) => {
-    if (payload.settings?.payload?.allPlugins) {
-        allPluginNames = [...payload.settings.payload.allPlugins];
+    !('plugins' in globalSettings) && (globalSettings = {...payload.settings.payload});
+
+    if (payload.settings?.payload?.plugins) {
+        connectMsg.plugins = payload.settings.payload.pluginList;
+    }
+
+    if (payload.settings?.payload?.token) {
+        sibeliusToken = payload.settings.payload.token;
     }
 });
 
 myAction.onKeyUp(({ action, context, device, event, payload }) => {
     if (!sibsocket || sibsocket.readyState === 3) {
         sibsocket = new WebSocket('ws://127.0.0.1:1898');
-        sibeliusToken = '';
+
+        globalSettings.token = '';
+        $SD.setGlobalSettings({context: globalContext, payload: globalSettings});
+        $SD.getGlobalSettings(globalContext);
     }
 
     if (payload.settings && payload.settings.payload.pluginName) {
         if (sibeliusToken) {
             sibsocket.send(JSON.stringify({ "message" : "invokePlugin", "name": payload.settings.payload.pluginName }));
         } else {
-            connectMsg.plugins = [...allPluginNames];
             sibsocket.onopen = event => sibsocket.send(JSON.stringify(connectMsg));
-
         }
 
         sibsocket.onmessage = event => {
@@ -49,7 +57,10 @@ myAction.onKeyUp(({ action, context, device, event, payload }) => {
             }
 
             if(jsonObj.sessionToken) {
-                sibeliusToken = jsonObj.sessionToken
+                globalSettings.token = jsonObj.sessionToken;
+                $SD.setGlobalSettings({context: globalContext, payload: globalSettings});
+
+                $SD.getGlobalSettings(globalContext);
             }
         }
     } else {
@@ -59,17 +70,6 @@ myAction.onKeyUp(({ action, context, device, event, payload }) => {
 
 myAction.onSendToPlugin(({context, payload}) => {
     if (payload) {
-        const globalPayload = {};
-
-        globalPayload.allPlugins = [...allPluginNames, payload.payload.pluginName];
-        $SD.setGlobalSettings({context: globalContext, payload: globalPayload});
-
         $SD.setSettings(context, payload);
-
-        $SD.getGlobalSettings(globalContext);
-
-        sibsocket && sibsocket.close();
-        sibsocket = '';
-        sibeliusToken = '';
     }
 });
