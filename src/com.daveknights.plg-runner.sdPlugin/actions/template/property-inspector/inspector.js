@@ -53,7 +53,7 @@ $PI.onDidReceiveGlobalSettings(({payload}) => {
 
             addSelectOption(pluginSelect, 'Select a plugin');
 
-            for (const plugin of payload.settings.payload.plugins[e.target.value]) {
+            for (const plugin of payload.settings.payload.plugins[e.target.value].sort()) {
                 addSelectOption(pluginSelect, plugin, `${plugin.replaceAll(' ', '')}`);
             }
         });
@@ -65,7 +65,7 @@ $PI.onDidReceiveGlobalSettings(({payload}) => {
         if (categoryValue) {
             categorySelect.value = categoryValue;
 
-            for (const plugin of payload.settings.payload.plugins[categoryValue]) {
+            for (const plugin of payload.settings.payload.plugins[categoryValue].sort()) {
                 addSelectOption(pluginSelect, plugin, `${plugin.replaceAll(' ', '')}`);
             }
         }
