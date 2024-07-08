@@ -22,7 +22,7 @@ $SD.onConnected(({ actionInfo, appInfo, connection, messageType, port, uuid }) =
 });
 
 $SD.onDidReceiveGlobalSettings(({payload}) => {
-    !('plugins' in globalSettings) && (globalSettings = {...payload.settings.payload});
+    globalSettings = {...payload.settings.payload};
 
     if (payload.settings?.payload?.plugins) {
         connectMsg.plugins = payload.settings.payload.pluginList;
@@ -30,23 +30,22 @@ $SD.onDidReceiveGlobalSettings(({payload}) => {
 
     if (payload.settings?.payload?.token) {
         sibeliusToken = payload.settings.payload.token;
+    } else {
+        sibsocket.readyState && sibsocket.close();
+        sibeliusToken = '';
     }
 });
 
 myAction.onKeyUp(({ action, context, device, event, payload }) => {
-    if (!sibsocket || sibsocket.readyState === 3) {
+    if (!sibsocket || sibsocket.readyState === WebSocket.CLOSED) {
         sibsocket = new WebSocket('ws://127.0.0.1:1898');
-
-        globalSettings.token = '';
-        $SD.setGlobalSettings({context: globalContext, payload: globalSettings});
-        $SD.getGlobalSettings(globalContext);
     }
 
     if (payload.settings && payload.settings.payload.pluginName) {
         if (sibeliusToken) {
             sibsocket.send(JSON.stringify({ "message" : "invokePlugin", "name": payload.settings.payload.pluginName }));
         } else {
-            sibsocket.onopen = event => sibsocket.send(JSON.stringify(connectMsg));
+            sibsocket.onopen = () => sibsocket.send(JSON.stringify(connectMsg));
         }
 
         sibsocket.onmessage = event => {
