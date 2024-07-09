@@ -1745,39 +1745,3 @@ select {
 .context-menu_message {
     cursor: default;
 }
-
-/* Custom Styles */
-.sibelius-category-dropdown,
-.sibelius-plugin-dropdown {
-    display: none;
-}
-
-.sibelius-category-dropdown.show,
-.sibelius-plugin-dropdown.show {
-    display: block;
-}
-
-#sibelius-plugin-category,
-#sibelius-plugin-name {
-    margin-left: 6px;
-}
-
-#sibelius-plugin-category,
-#sibelius-plugin-name,
-input[type="file"]#sibelius-file {
-    margin-right: 0;
-    max-width: none;
-    width: 240px;
-}
-
-#sibelius-upload-info::after {
-    content: '';
-}
-
-#sibelius-filepicker-group {
-    width: 246px;
-}
-
-#sibelius-filepicker-group .sdpi-file-info {
-    width: 146px;
-}
