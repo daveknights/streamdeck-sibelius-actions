@@ -3,7 +3,7 @@
 	"Author": "Dave Knights",
 	"CodePath": "app.html",
 	"Description": "This lets you run a plugin in Sibelius",
-	"Name": "Sibelius Plugin Runner",
+	"Name": "Sibelius Actions",
 	"Icon": "actions/template/assets/action",
 	"URL": "https://www.elgato.com/en/gaming/stream-deck",
 	"Version": "1.0.2",
@@ -20,12 +20,12 @@
 			"MinimumVersion": "10"
 		}
 	],
-	"Category": "Music Notation",
+	"Category": "Sibelius Actions",
 	"CategoryIcon": "actions/template/assets/actionimage",
 	"Actions": [
 		{
-			"Icon": "actions/template/assets/actionimage",
-			"Name": "Sibelius Plugin Runner",
+			"Icon": "actions/template/assets/plugin-runner",
+			"Name": "Plugin Runner",
 			"Controllers": ["Keypad", "Encoder"],
 			"Encoder": {
 				"layout": "$B1",
