@@ -87,7 +87,8 @@ const save = (key, value) => {
 };
 
 fileInput.addEventListener('change', async e => {
-    document.querySelector('.sdpi-file-info[for="sibelius-file"]').textContent = 'sibelius-plugins.json';
+    const fileName = fileInput.files[0].name.replaceAll('%2F', '/').split('/').pop();
+    document.querySelector('.sdpi-file-info[for="sibelius-file"]').textContent = fileName;
 
     const filePath = decodeURIComponent(fileInput.value.replace(/^C:\\fakepath\\/, ''));
     const response = await fetch(filePath);
