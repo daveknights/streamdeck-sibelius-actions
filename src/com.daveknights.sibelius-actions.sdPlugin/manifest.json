@@ -6,7 +6,7 @@
 	"Name": "Sibelius Actions",
 	"Icon": "actions/plugin-runner/template/assets/action",
 	"URL": "https://www.elgato.com/en/gaming/stream-deck",
-	"Version": "1.0.2",
+	"Version": "1.0.0",
 	"Software": {
 		"MinimumVersion": "5.0"
 	},
