@@ -1,8 +1,9 @@
 /// <reference path="libs/js/action.js" />
 /// <reference path="libs/js/stream-deck.js" />
 
-const myAction = new Action('com.daveknights.plg-runner.action');
-const globalContext = 'comSibeliusPluginContext';
+const plgRunner = new Action('com.daveknights.plg-runner.action');
+const cmdRunner = new Action('com.daveknights.cmd-runner.action');
+const globalContext = 'comSibeliusActionsContext';
 const connectMsg = {
     "message": "connect",
     "clientName": "StreamDeckPlgRunner",
@@ -36,7 +37,7 @@ $SD.onDidReceiveGlobalSettings(({payload}) => {
     }
 });
 
-myAction.onKeyUp(({ action, context, device, event, payload }) => {
+plgRunner.onKeyUp(({ action, context, device, event, payload }) => {
     if (!sibsocket || sibsocket.readyState === WebSocket.CLOSED) {
         sibsocket = new WebSocket('ws://127.0.0.1:1898');
     }
@@ -67,8 +68,50 @@ myAction.onKeyUp(({ action, context, device, event, payload }) => {
     }
 });
 
-myAction.onSendToPlugin(({context, payload}) => {
+plgRunner.onSendToPlugin(({context, payload}) => {
     if (payload) {
         $SD.setSettings(context, payload);
+    }
+});
+
+cmdRunner.onKeyUp(({ action, context, device, event, payload }) => {
+    if (!sibsocket || sibsocket.readyState === WebSocket.CLOSED) {
+        sibsocket = new WebSocket('ws://127.0.0.1:1898');
+        sibeliusToken = '';
+    }
+
+    if (payload.settings && payload.settings.payload.commandName) {
+        if (sibeliusToken) {
+            sibsocket.send(JSON.stringify({ "message" : "invokeCommands", "commands": [payload.settings.payload.commandName] }));
+        } else {
+            sibsocket.onopen = () => sibsocket.send(JSON.stringify(connectMsg));
+        }
+
+        sibsocket.onmessage = event => {
+            const jsonObj = JSON.parse(event.data);
+
+            if (jsonObj.message === 'connectResponse') {
+                sibsocket.send(JSON.stringify({ "message" : "invokeCommands", "commands": [payload.settings.payload.commandName] }));
+            }
+
+            if(jsonObj.sessionToken) {
+                globalSettings.token = jsonObj.sessionToken;
+                $SD.setGlobalSettings({context: globalContext, payload: globalSettings});
+
+                $SD.getGlobalSettings(globalContext);
+            }
+        }
+    } else {
+        $SD.showAlert(context);
+    }
+});
+
+cmdRunner.onSendToPlugin(({context, payload}) => {
+    if (payload) {
+        $SD.setSettings(context, payload);
+
+        sibsocket && sibsocket.close();
+        sibsocket = '';
+        sibeliusToken = '';
     }
 });

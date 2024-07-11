@@ -1,7 +1,7 @@
-/// <reference path="../../../libs/js/property-inspector.js" />
-/// <reference path="../../../libs/js/utils.js" />
+/// <reference path="../../../../libs/js/property-inspector.js" />
+/// <reference path="../../../../libs/js/utils.js" />
 
-const globalContext = 'comSibeliusPluginContext';
+const globalContext = 'comSibeliusActionsContext';
 const form = document.querySelector('#property-inspector');
 const categoryDropdown = document.querySelector('.sibelius-category-dropdown');
 const categorySelect = document.querySelector('#sibelius-plugin-category');

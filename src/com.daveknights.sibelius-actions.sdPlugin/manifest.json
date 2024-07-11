@@ -1,0 +1,71 @@
+{
+	"SDKVersion": 2,
+	"Author": "Dave Knights",
+	"CodePath": "app.html",
+	"Description": "This lets you run a plugin and command in Sibelius",
+	"Name": "Sibelius Actions",
+	"Icon": "actions/plugin-runner/template/assets/action",
+	"URL": "https://www.elgato.com/en/gaming/stream-deck",
+	"Version": "1.0.2",
+	"Software": {
+		"MinimumVersion": "5.0"
+	},
+	"OS": [
+		{
+			"Platform": "mac",
+			"MinimumVersion": "10.11"
+		},
+		{
+			"Platform": "windows",
+			"MinimumVersion": "10"
+		}
+	],
+	"Category": "Sibelius Actions",
+	"CategoryIcon": "actions/plugin-runner/template/assets/actionimage",
+	"Actions": [
+		{
+			"Icon": "actions/plugin-runner/template/assets/plugin-runner",
+			"Name": "Plugin Runner",
+			"Controllers": ["Keypad", "Encoder"],
+			"Encoder": {
+				"layout": "$B1",
+				"TriggerDescription": {
+					"Rotate": "Describe the rotation",
+					"Push": "Describe the encoder push",
+					"Touch": "Describe the touch",
+					"LongTouch": "Describe the long touch"
+				}
+			},
+			"States": [
+				{
+					"Image": "actions/plugin-runner/template/assets/action"
+				}
+			],
+			"Tooltip": "This action runs a plugin inside Sibelius",
+			"UUID": "com.daveknights.plg-runner.action",
+			"PropertyInspectorPath": "actions/plugin-runner/template/property-inspector/inspector.html"
+		},
+        {
+			"Icon": "actions/command-runner/template/assets/command-runner",
+			"Name": "Command Runner",
+			"Controllers": ["Keypad", "Encoder"],
+			"Encoder": {
+				"layout": "$B1",
+				"TriggerDescription": {
+					"Rotate": "Describe the rotation",
+					"Push": "Describe the encoder push",
+					"Touch": "Describe the touch",
+					"LongTouch": "Describe the long touch"
+				}
+			},
+			"States": [
+				{
+					"Image": "actions/command-runner/template/assets/action"
+				}
+			],
+			"Tooltip": "This action runs a command inside Sibelius",
+			"UUID": "com.daveknights.cmd-runner.action",
+			"PropertyInspectorPath": "actions/command-runner/template/property-inspector/inspector.html"
+		}
+	]
+}
