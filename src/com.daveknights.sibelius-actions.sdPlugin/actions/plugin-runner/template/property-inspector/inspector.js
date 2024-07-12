@@ -105,7 +105,6 @@ fileInput.addEventListener('change', async e => {
 
     globalPayload.pluginList = allPluginNames;
     globalPayload.plugins = data.plugins;
-    globalPayload.token = '';
 
     $PI.setGlobalSettings({context: globalContext, payload: globalPayload});
 
