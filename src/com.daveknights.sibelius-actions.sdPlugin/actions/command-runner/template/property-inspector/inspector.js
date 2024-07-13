@@ -3,10 +3,8 @@
 
 const commandNameInput = document.querySelector('#command-name');
 
-$PI.onConnected((jsn) => {
-    const {actionInfo, appInfo, connection, messageType, port, uuid} = jsn;
-    const {payload, context} = actionInfo;
-    const {settings} = payload;
+$PI.onConnected(jsn => {
+    const {settings} = jsn.actionInfo.payload;
 
     if (settings && settings.payload) {
         pluginNameInput.value = settings.payload.commandName || '';
