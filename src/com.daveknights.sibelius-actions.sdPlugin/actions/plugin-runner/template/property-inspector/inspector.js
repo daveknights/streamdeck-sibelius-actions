@@ -15,10 +15,8 @@ const buttonValues = {
 let categoryValue = '';
 let pluginValue = '';
 
-$PI.onConnected((jsn) => {
-    const {actionInfo, appInfo, connection, messageType, port, uuid} = jsn;
-    const {payload, context} = actionInfo;
-    const {settings} = payload;
+$PI.onConnected(jsn => {
+    const {settings} = jsn.actionInfo.payload;
 
     $PI.getGlobalSettings(globalContext);
 

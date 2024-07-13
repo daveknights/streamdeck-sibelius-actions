@@ -16,9 +16,7 @@ let allPluginNames = [];
 /**
  * The first event fired when Stream Deck starts
  */
-$SD.onConnected(({ actionInfo, appInfo, connection, messageType, port, uuid }) => {
-    $SD.getGlobalSettings(globalContext);
-});
+$SD.onConnected(() => $SD.getGlobalSettings(globalContext));
 
 $SD.onDidReceiveGlobalSettings(({payload}) => {
     if (payload.settings?.payload?.plugins) {
@@ -70,12 +68,14 @@ const connectAndRun = (type, payload) => {
     }
 };
 
-plgRunner.onKeyUp(({ action, context, device, event, payload }) => payload.settings &&
-    connectAndRun('plugin', { "message" : "invokePlugin", "name": payload.settings.payload.pluginName }));
+plgRunner.onKeyUp(({ payload }) => payload.settings && connectAndRun(
+    'plugin', { "message" : "invokePlugin", "name": payload.settings.payload.pluginName }
+));
 
 plgRunner.onSendToPlugin(({context, payload}) => payload && $SD.setSettings(context, payload));
 
-cmdRunner.onKeyUp(({ action, context, device, event, payload }) => payload.settings &&
-    connectAndRun('command', { "message" : "invokeCommands", "commands": [payload.settings.payload.commandName] }));
+cmdRunner.onKeyUp(({ payload }) => payload.settings && connectAndRun(
+    'command', { "message" : "invokeCommands", "commands": [payload.settings.payload.commandName] }
+));
 
 cmdRunner.onSendToPlugin(({context, payload}) => payload && $SD.setSettings(context, payload));
