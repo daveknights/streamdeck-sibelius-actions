@@ -7,7 +7,7 @@ $PI.onConnected(jsn => {
     const {settings} = jsn.actionInfo.payload;
 
     if (settings && settings.payload) {
-        pluginNameInput.value = settings.payload.commandName || '';
+        commandNameInput.value = settings.payload.commandName || '';
      }
 });
 
