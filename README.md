@@ -58,9 +58,7 @@ When Version 1.0.0 of the Sibelius Actions plugin is ready you will be able to d
 ## Troubleshooting
 
 ### Plugin Runner
-If after uploading a json file the category and plugin values are not showing in the property inspector drop downs, paste the contents of the file you uploaded into an onlie [json validator](https://jsonlint.com/) to ensure there are no syntax errors.
-
-Every time you upload new plugin names, a new connection will need to be made with Sibelius regardless of whether you quit the application or not.
+If after uploading a json file the category and plugin values are not showing in the property inspector drop downs, paste the contents of the file you uploaded into an online [json validator](https://jsonlint.com/) to ensure there are no syntax errors. Also check that the plugin names are correct.
 
 ### Command Runner
 It the action doesn't work, ensure the command ID you've used is correct and that you have clicked the **Save Command** button in the property inspector.
