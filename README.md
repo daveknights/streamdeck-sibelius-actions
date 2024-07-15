@@ -21,7 +21,7 @@ Upload a json file containing the plugin names you would like to run in Sibelius
 ![](https://raw.githubusercontent.com/daveknights/assets/main/plugin-runner-pi.png)
 
 > [!NOTE]
-> Everytime you upload a file of category/plugin names a new connection with Sibelius needs to made, regardless of whether you have quit the application or not, so it can receive the updated list.
+> Everytime you upload a file of category/plugin names a new connection with Sibelius needs to be made, regardless of whether you have quit the application or not, so it can receive the updated list.
 
 Here is a sample of how the json data must be formatted. It is strongly recommended to use a [json validator](https://jsonlint.com/) to ensure the file syntax is correct. You can separate words within plugin names with a single space so they will be more readable in the drop downs. These are automatically removed when sending the names to Sibelius.
 
