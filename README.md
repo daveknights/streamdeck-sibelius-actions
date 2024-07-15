@@ -31,10 +31,10 @@ In this instance, **Other** & **Batch Processing** are the categories, each cont
 {
     "plugins" : {
         "Other": [
-            "Suggest Cue Locations"
+            "Preferences", "Suggest Cue Locations"
         ],
         "Batch Processing": [
-            "Preferences", "Calculate Statistics"
+            "Calculate Statistics"
         ]
     }
 }
