@@ -20,13 +20,13 @@
                 <div data-localize class="sdpi-item-label" title="My name">Cmd ID</div>
                 <input data-localize id="command-name" class="sdpi-item-value" name="command-name" type="text" value="" placeholder="my_command_id" required />
             </div>
+            <div class="sdpi-item">
+                <div class="sdpi-item-label" data-localize title="My button">Store</div>
+                <button id="save-command" class="sdpi-item-value" data-localize onclick="save()">
+                    Save Command
+                </button>
+            </div>
         </form>
-        <div class="sdpi-item">
-            <div class="sdpi-item-label" data-localize title="My button">Store</div>
-            <button class="sdpi-item-value" data-localize onclick="save()">
-                Save Command
-            </button>
-        </div>
         <div class="sdpi-item alignTop">
             <div class="sdpi-item-label info" id="save-command-info"></div>
             <strong class="sdpi-item-value">
