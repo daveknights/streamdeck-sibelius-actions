@@ -53,7 +53,7 @@ Enter the ID of the command you want to run in the Plugin Runner property inspec
 > Unlike the Plugin Runner which saves the values automatically when selected from a drop down, you must click the **Save Command** button to store it's value in the property inspector.
 
 ## Releases
-When Version 1.0.0 of the Sibelius Actions plugin is ready you will be able to download it from a release folder. Once downloaded, you can double-click the file to install it on you Stream Deck.
+When Version 1.0.0 of the Sibelius Actions plugin is ready you will be able to download it from a release folder. Once downloaded, you can double-click the file to install it on your Stream Deck.
 
 ## Troubleshooting
 
