@@ -4,7 +4,7 @@
 	"CodePath": "app.html",
 	"Description": "This lets you run a plugin and command in Sibelius",
 	"Name": "Sibelius Actions",
-	"Icon": "actions/plugin-runner/template/assets/action",
+	"Icon": "actions/plugin-runner/template/assets/plugin-runner-key",
 	"URL": "https://www.elgato.com/en/gaming/stream-deck",
 	"Version": "1.0.0",
 	"Software": {
@@ -21,7 +21,7 @@
 		}
 	],
 	"Category": "Sibelius Actions",
-	"CategoryIcon": "actions/plugin-runner/template/assets/actionimage",
+	"CategoryIcon": "actions/plugin-runner/template/assets/category-icon",
 	"Actions": [
 		{
 			"Icon": "actions/plugin-runner/template/assets/plugin-runner",
@@ -38,7 +38,7 @@
 			},
 			"States": [
 				{
-					"Image": "actions/plugin-runner/template/assets/action"
+					"Image": "actions/plugin-runner/template/assets/plugin-runner-key"
 				}
 			],
 			"Tooltip": "This action runs a plugin inside Sibelius",
@@ -60,7 +60,7 @@
 			},
 			"States": [
 				{
-					"Image": "actions/command-runner/template/assets/action"
+					"Image": "actions/command-runner/template/assets/command-runner-key"
 				}
 			],
 			"Tooltip": "This action runs a command inside Sibelius",
