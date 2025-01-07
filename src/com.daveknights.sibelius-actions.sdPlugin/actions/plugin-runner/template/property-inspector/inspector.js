@@ -8,6 +8,7 @@ const categorySelect = document.querySelector('#sibelius-plugin-category');
 const pluginDropdown = document.querySelector('.sibelius-plugin-dropdown');
 const pluginSelect = document.querySelector('#sibelius-plugin-name');
 const fileInput = document.querySelector('#sibelius-file');
+const splitTitleCase = /(?<=[a-z])(?=[A-Z])/g;
 const buttonValues = {
     category: '',
     pluginName: ''
@@ -52,7 +53,7 @@ $PI.onDidReceiveGlobalSettings(({payload}) => {
             addSelectOption(pluginSelect, 'Select a plugin');
 
             for (const plugin of payload.settings.payload.plugins[e.target.value].sort()) {
-                addSelectOption(pluginSelect, plugin, `${plugin.replaceAll(' ', '')}`);
+                addSelectOption(pluginSelect, `${plugin.replace(splitTitleCase, ' ')}`, plugin);
             }
         });
 
@@ -64,7 +65,7 @@ $PI.onDidReceiveGlobalSettings(({payload}) => {
             categorySelect.value = categoryValue;
 
             for (const plugin of payload.settings.payload.plugins[categoryValue].sort()) {
-                addSelectOption(pluginSelect, plugin, `${plugin.replaceAll(' ', '')}`);
+                addSelectOption(pluginSelect, `${plugin.replace(splitTitleCase, ' ')}`, plugin);
             }
         }
 
@@ -97,7 +98,7 @@ fileInput.addEventListener('change', async e => {
 
     for (const category in data.plugins) {
         for (const plugin of data.plugins[category]) {
-            allPluginNames.push(plugin.replaceAll(' ', ''));
+            allPluginNames.push(plugin);
         }
     }
 
