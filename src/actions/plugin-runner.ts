@@ -1,4 +1,4 @@
-import streamDeck, { action, DidReceiveSettingsEvent, JsonObject, JsonValue, KeyDownEvent, PropertyInspectorDidDisappearEvent, SendToPluginEvent, SingletonAction, WillAppearEvent, WillDisappearEvent } from "@elgato/streamdeck";
+import streamDeck, { action, DidReceiveSettingsEvent, JsonObject, JsonValue, KeyDownEvent, PropertyInspectorDidDisappearEvent, SendToPluginEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 import type { PluginGlobalSettings } from "./sibelius-actions.model";
 import WebSocket from 'ws';
 
