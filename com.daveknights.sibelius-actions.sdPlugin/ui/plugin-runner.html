@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <title>Plugin Runner Property Inspector</title>
+        <meta charset="utf-8" />
+        <script src="https://sdpi-components.dev/releases/v3/sdpi-components.js"></script>
+        <style>
+            button {
+                background-color: #48178b;
+                border: 1px solid black;
+                border-radius: 3px;
+                box-sizing: border-box;
+                color: var(--input-font-color);
+                font-family: var(--font-family);
+                font-size: var(--font-size);
+                max-width: 100%;
+                min-width: 100%;
+                outline: 0px;
+                padding: calc(var(--spacer) * 1.5);
+            }
+            .hide {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <!--Learn more about property inspector components at https://sdpi-components.dev/docs/components-->
+        <sdpi-item>
+            <button class="choose-plugin">Choose Plugin</button>
+        </sdpi-item>
+        <div class="selects hide">
+            <sdpi-item label="Category">
+                <sdpi-select setting="category" placeholder="Please choose a category" datasource="getCategories"
+                    loading="Awaiting categories..." hot-reload>
+                </sdpi-select>
+            </sdpi-item>
+            <sdpi-item label="Name">
+                <sdpi-select setting="pluginName" placeholder="Please choose a name" datasource="getNames"
+                    loading="Awaiting names..." hot-reload>
+                </sdpi-select>
+            </sdpi-item>
+        </div>
+        <script>
+            const showSelects = document.querySelector('.choose-plugin');
+
+            showSelects.addEventListener('click', () => {
+                document.querySelector('.selects').classList.toggle('hide');
+            });
+		</script>
+    </body>
+</html>
