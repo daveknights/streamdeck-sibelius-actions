@@ -7,12 +7,45 @@
     </head>
     <body>
         <!--Learn more about property inspector components at https://sdpi-components.dev/docs/components-->
-        <sdpi-item label="Cmd ID">
-            <sdpi-textfield
-                setting="commandId"
-                placeholder="my_command_id"
-                required>
-            </sdpi-textfield>
+        <sdpi-item label="group">
+            <sdpi-select setting="group" placeholder="Choose a group">
+                <option value="1-8">1 - 8</option>
+                <option value="a">A</option>
+                <option value="b">B</option>
+                <option value="c">C</option>
+                <option value="d">D</option>
+                <option value="e">E</option>
+                <option value="f">F</option>
+                <option value="filter">Filter</option>
+                <option value="g">G</option>
+                <option value="h">H</option>
+                <option value="i">I</option>
+                <option value="k">K</option>
+                <option value="l">L</option>
+                <option value="m">M</option>
+                <option value="n">N</option>
+                <option value="o">O</option>
+                <option value="p">P</option>
+                <option value="q">Q</option>
+                <option value="r">R</option>
+                <option value="sa-sh">Sa - Sh</option>
+                <option value="si-sy">Si - Sy</option>
+                <option value="t">T</option>
+                <option value="u">U</option>
+                <option value="v">V</option>
+                <option value="w">W</option>
+                <option value="z">Z</option>
+            </sdpi-select>
         </sdpi-item>
+        <sdpi-item label="Name">
+            <sdpi-select setting="commandId" placeholder="Choose a command" datasource="getCommands"
+                loading="Awaiting commands..." hot-reload>
+            </sdpi-select>
+        </sdpi-item>
+        <div class="icon-folder-picker" style="border-top:solid 1px #777;margin-top:20px;padding-top:20px;">
+            <sdpi-item label="Icon folder">
+                <sdpi-file setting="iconPath" accept=".txt"></sdpi-file>
+            </sdpi-item>
+        </div>
     </body>
 </html>
