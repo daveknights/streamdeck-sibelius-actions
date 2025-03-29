@@ -96,9 +96,26 @@ export class PluginRunner extends SingletonAction<PluginRunnerSettings> {
      */
     override async onKeyDown(ev: KeyDownEvent<PluginRunnerSettings>): Promise<void> {
         const payload = { "message": "invokePlugin", "name": ev.payload.settings.pluginName };
+
         if (ev.payload.settings.pluginName) {
             if (!this.sibsocket || this.sibsocket.readyState === WebSocket.CLOSED) {
                 this.sibsocket = new WebSocket('ws://127.0.0.1:1898');
+
+                this.sibsocket.on('message', (data: string) => {
+                    const jsonObj: {
+                        sessionToken: string,
+                        message: string,
+                        result: boolean
+                    } = JSON.parse(data);
+
+                    console.log(jsonObj);
+
+
+                    if (jsonObj.message === 'connectResponse' && jsonObj.result === true) {
+                        this.sibeliusToken = jsonObj.sessionToken;
+                        this.sibsocket?.send(JSON.stringify(payload));
+                    }
+                });
             }
 
             if (this.sibeliusToken) {
@@ -113,19 +130,6 @@ export class PluginRunner extends SingletonAction<PluginRunnerSettings> {
                     });
                 });
             }
-
-            this.sibsocket.on('message', (data: string) => {
-                const jsonObj: {
-                    sessionToken: string,
-                    message: string,
-                    result: boolean
-                } = JSON.parse(data);
-
-                if (jsonObj.message === 'connectResponse' && jsonObj.result === true) {
-                    this.sibeliusToken = jsonObj.sessionToken;
-                    this.sibsocket?.send(JSON.stringify(payload));
-                }
-            });
         }
     };
 }
