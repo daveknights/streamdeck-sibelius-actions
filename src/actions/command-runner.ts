@@ -16,22 +16,20 @@ export class CommandRunner extends SingletonAction<CommandRunnerSettings> {
         "handshakeVersion": "1.0",
     };
     commandIds = CommandIds;
+    iconPath = 'imgs/command-id-icons/';
     /**
      * Get the global settings and populate the category select on key creation
      */
     override async onWillAppear(ev: WillAppearEvent<CommandRunnerSettings>): Promise<void> {
+        const commandIcon = `${this.iconPath}${ev.payload.settings.commandId}.png`;
         this.globalSettings = await streamDeck.settings.getGlobalSettings<PluginGlobalSettings>();
 
         if (this.globalSettings.sibeliusToken) {
             this.sibeliusToken = this.globalSettings.sibeliusToken;
         }
 
-        if (this.globalSettings.iconPath) {
-            const commandIcon = `${this.globalSettings.iconPath}/${ev.payload.settings.commandId}.png`;
-
-            if (fs.existsSync(commandIcon)) {
-                ev.action.setImage(commandIcon);
-            }
+        if (fs.existsSync(commandIcon)) {
+            ev.action.setImage(commandIcon);
         }
     }
     /**
@@ -40,20 +38,8 @@ export class CommandRunner extends SingletonAction<CommandRunnerSettings> {
     override onDidReceiveSettings(ev: DidReceiveSettingsEvent<CommandRunnerSettings>): Promise<void> | void {
         let commandIdGroup: Array<{ label: string, value: string }> = [];
 
-        if (ev.payload.settings.iconPath) {
-            const path = ev.payload.settings.iconPath.replace('access.txt', '');
-            const commandIcon = `${path}/${ev.payload.settings.commandId}.png`;
-
-            streamDeck.settings.setGlobalSettings({
-                ...this.globalSettings,
-                iconPath: path
-            });
-
-            if (fs.existsSync(commandIcon)) {
-                ev.action.setImage(commandIcon);
-            }
-        } else if (this.globalSettings.iconPath) {
-            const commandIcon = `${this.globalSettings.iconPath}/${ev.payload.settings.commandId}.png`;
+        if (ev.payload.settings.commandId) {
+            const commandIcon = `${this.iconPath}/${ev.payload.settings.commandId}.png`;
 
             if (fs.existsSync(commandIcon)) {
                 ev.action.setImage(commandIcon);
@@ -61,8 +47,8 @@ export class CommandRunner extends SingletonAction<CommandRunnerSettings> {
         }
 
         if (ev.payload.settings.group !== '' && ev.payload.settings.group !== undefined) {
-            for (const [commanId, definition] of Object.entries(this.commandIds[ev.payload.settings.group as keyof typeof this.commandIds])) {
-                commandIdGroup.push({ label: definition, value: commanId });
+            for (const [commandId, definition] of Object.entries(this.commandIds[ev.payload.settings.group as keyof typeof this.commandIds])) {
+                commandIdGroup.push({ label: definition, value: commandId });
             }
         }
 
@@ -82,6 +68,19 @@ export class CommandRunner extends SingletonAction<CommandRunnerSettings> {
         if (ev.payload.settings.commandId) {
             if (!this.sibsocket || this.sibsocket.readyState === WebSocket.CLOSED) {
                 this.sibsocket = new WebSocket('ws://127.0.0.1:1898');
+
+                this.sibsocket.on('message', (data: string) => {
+                    const jsonObj: {
+                        sessionToken: string,
+                        message: string,
+                        result: boolean
+                    } = JSON.parse(data);
+
+                    if (jsonObj.message === 'connectResponse' && jsonObj.result === true) {
+                        this.sibeliusToken = jsonObj.sessionToken;
+                        this.sibsocket?.send(JSON.stringify(payload));
+                    }
+                });
             }
 
             if (this.sibeliusToken) {
@@ -96,20 +95,6 @@ export class CommandRunner extends SingletonAction<CommandRunnerSettings> {
                     });
                 });
             }
-
-            this.sibsocket.on('message', (data: string) => {
-                const jsonObj: {
-                    sessionToken: string,
-                    message: string,
-                    result: boolean
-                } = JSON.parse(data);
-
-                if (jsonObj.message === 'connectResponse' && jsonObj.result === true) {
-                    this.sibeliusToken = jsonObj.sessionToken;
-
-                    this.sibsocket?.send(JSON.stringify(payload));
-                }
-            });
         }
     };
 }
@@ -120,5 +105,4 @@ export class CommandRunner extends SingletonAction<CommandRunnerSettings> {
 type CommandRunnerSettings = {
     group: string,
     commandId: string,
-    iconPath: string,
 };
