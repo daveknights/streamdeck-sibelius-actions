@@ -33,7 +33,7 @@ export class PluginRunner extends SingletonAction<PluginRunnerSettings> {
         }
 
         if (categories && !this.uiCategoryOptions.length) {
-            for (const category of categories) {
+            for (const category of categories.sort()) {
                 this.uiCategoryOptions.push({ label: category, value: category });
             }
         }
@@ -52,7 +52,7 @@ export class PluginRunner extends SingletonAction<PluginRunnerSettings> {
         let pluginItems: Array<{ label: string, value: string }> = [];
 
         if (ev.payload.settings.category !== '' && ev.payload.settings.category !== undefined) {
-            for (const plugin of this.globalSettings.plugins[ev.payload.settings.category]) {
+            for (const plugin of this.globalSettings.plugins[ev.payload.settings.category].sort()) {
                 pluginItems.push({ label: plugin, value: plugin });
             }
         }
@@ -107,9 +107,6 @@ export class PluginRunner extends SingletonAction<PluginRunnerSettings> {
                         message: string,
                         result: boolean
                     } = JSON.parse(data);
-
-                    console.log(jsonObj);
-
 
                     if (jsonObj.message === 'connectResponse' && jsonObj.result === true) {
                         this.sibeliusToken = jsonObj.sessionToken;
