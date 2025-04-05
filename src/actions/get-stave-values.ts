@@ -17,6 +17,8 @@ export class GetStaveValues extends SingletonAction<GetStaveValuesSettings> {
     };
     /**
      * Use the plugin name to send to Sibelius
+     * Retrieve the paper size & stave values
+     * Set the PlusStave & MinusStave key title
      */
     override async onKeyDown(ev: KeyDownEvent<GetStaveValuesSettings>): Promise<void> {
         wSConnect.sendPayload({ "message": "invokePlugin", "name": 'PartCalcStaves' });
@@ -32,9 +34,9 @@ export class GetStaveValues extends SingletonAction<GetStaveValuesSettings> {
                     action.setTitle(`${paperSize}\n\n${parseInt(firstPage) - 1} - ${parseInt(secondPage) - 1}`);
                 }
             });
-        });
 
-        wSConnect.clearStaveValues();
+            wSConnect.clearStaveValues();
+        });
     };
 }
 
