@@ -1,7 +1,7 @@
 import streamDeck, { action, type KeyDownEvent, SingletonAction } from "@elgato/streamdeck";
 import * as fs from 'fs';
 import path from 'path';
-import { PluginGlobalSettings } from "./sibelius-actions.model";
+import { PluginGlobalSettings } from "../shared/sibelius-actions.model";
 
 @action({ UUID: "com.daveknights.sibelius-actions.get-all-plugins" })
 export class GetAllPlugins extends SingletonAction<GetAllPluginsSettings> {
@@ -53,7 +53,7 @@ export class GetAllPlugins extends SingletonAction<GetAllPluginsSettings> {
                         allPluginNames.push(plugin);
                     }
                 }
-                // Set the global settings after receiving a plugin category/names.
+                // Set the global settings after receiving all category/plugin names
                 streamDeck.settings.setGlobalSettings({
                     ...this.globalSettings,
                     plugins: pluginData,

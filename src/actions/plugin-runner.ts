@@ -1,20 +1,12 @@
 import streamDeck, { action, DidReceiveSettingsEvent, JsonObject, JsonValue, KeyDownEvent, PropertyInspectorDidDisappearEvent, SendToPluginEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
-import type { PluginGlobalSettings } from "./sibelius-actions.model";
-import WebSocket from 'ws';
+import { wSConnect } from "../shared/web-socket-connection";
+import type { PluginGlobalSettings } from "../shared/sibelius-actions.model";
 
 @action({ UUID: "com.daveknights.sibelius-actions.plugin-runner" })
 export class PluginRunner extends SingletonAction<PluginRunnerSettings> {
     uiCategoryOptions: { label: string, value: string }[] = [];
     uiNameOptions: { label: string, value: string }[] = [];
     globalSettings!: PluginGlobalSettings;
-    sibsocket!: WebSocket | null;
-    sibeliusToken = '';
-    connectMsg = {
-        'message': 'connect',
-        'clientName"': 'StreamDeckActionsRunner',
-        'handshakeVersion': '1.0',
-        'plugins': {}
-    };
     /**
      * Get the global settings and populate the category select on key creation
      */
@@ -23,7 +15,7 @@ export class PluginRunner extends SingletonAction<PluginRunnerSettings> {
         const categories = this.globalSettings.categoryList;
 
         if (this.globalSettings.pluginList) {
-            this.connectMsg.plugins = this.globalSettings.pluginList;
+            wSConnect.addToConnectMessage(this.globalSettings.pluginList);
         }
 
         if (ev.payload.settings.pluginName) {
@@ -95,39 +87,7 @@ export class PluginRunner extends SingletonAction<PluginRunnerSettings> {
      * Use the plugin name to send to Sibelius
      */
     override async onKeyDown(ev: KeyDownEvent<PluginRunnerSettings>): Promise<void> {
-        const payload = { "message": "invokePlugin", "name": ev.payload.settings.pluginName };
-
-        if (ev.payload.settings.pluginName) {
-            if (!this.sibsocket || this.sibsocket.readyState === WebSocket.CLOSED) {
-                this.sibsocket = new WebSocket('ws://127.0.0.1:1898');
-
-                this.sibsocket.on('message', (data: string) => {
-                    const jsonObj: {
-                        sessionToken: string,
-                        message: string,
-                        result: boolean
-                    } = JSON.parse(data);
-
-                    if (jsonObj.message === 'connectResponse' && jsonObj.result === true) {
-                        this.sibeliusToken = jsonObj.sessionToken;
-                        this.sibsocket?.send(JSON.stringify(payload));
-                    }
-                });
-            }
-
-            if (this.sibeliusToken) {
-                this.sibsocket.send(JSON.stringify(payload));
-            } else {
-                this.sibsocket.on('open', () => {
-                    this.sibsocket?.send(JSON.stringify(this.connectMsg));
-
-                    this.sibsocket?.on('close', () => {
-                        this.sibsocket = null;
-                        this.sibeliusToken = '';
-                    });
-                });
-            }
-        }
+        wSConnect.sendPayload({ "message": "invokePlugin", "name": ev.payload.settings.pluginName });
     };
 }
 
