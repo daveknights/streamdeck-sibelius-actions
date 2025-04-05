@@ -43,7 +43,7 @@ class WebSocketConnection {
     }
 
     addToConnectMessage(pluginList: string[]) {
-        if (!this.connectMsg.plugins) {
+        if (Object.keys(this.connectMsg.plugins).length === 0) {
             this.connectMsg.plugins = pluginList;
         }
     }
@@ -54,11 +54,7 @@ class WebSocketConnection {
         if (this.isConnected && this.sibeliusToken) {
             this.sibeliusWebSocket?.send(JSON.stringify(payload));
         } else {
-            console.log(this.sibeliusWebSocket?.readyState);
-
             if (this.sibeliusWebSocket?.readyState === WebSocket.OPEN) {
-                console.log('Open');
-
                 this.sibeliusWebSocket?.send(JSON.stringify(this.connectMsg));
             };
         }

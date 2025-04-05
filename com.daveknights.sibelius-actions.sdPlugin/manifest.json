@@ -65,6 +65,38 @@
 					"TitleAlignment": "middle"
 				}
 			]
+		},
+		{
+			"Name": "Plus Stave",
+			"UUID": "com.daveknights.sibelius-actions.plus-stave",
+			"Icon": "imgs/actions/plus-stave/icon",
+			"Tooltip": "This action adds a stave",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/plus-stave/key",
+					"FontSize": 15,
+					"TitleAlignment": "middle"
+				}
+			]
+		},
+		{
+			"Name": "Minus Stave",
+			"UUID": "com.daveknights.sibelius-actions.minus-stave",
+			"Icon": "imgs/actions/minus-stave/icon",
+			"Tooltip": "This action removes a stave",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/minus-stave/key",
+					"FontSize": 15,
+					"TitleAlignment": "middle"
+				}
+			]
 		}
 	],
 	"Category": "Sibelius Actions",
