@@ -26,11 +26,9 @@ export class GetAllPlugins extends SingletonAction<GetAllPluginsSettings> {
 
         for await (const p of this.walk(path)) {
             if ('directory' in p) {
-                // console.log(p.directory);
                 directory = p.directory;
                 pluginData[directory] = [];
             } else if ('plugin' in p) {
-                // console.log(p.plugin);
                 pluginData[directory].push(p.plugin);
             }
         }
