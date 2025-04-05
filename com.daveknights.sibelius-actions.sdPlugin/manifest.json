@@ -50,6 +50,21 @@
 					"TitleAlignment": "middle"
 				}
 			]
+		},
+		{
+			"Name": "Get Stave Values",
+			"UUID": "com.daveknights.sibelius-actions.get-stave-values",
+			"Icon": "imgs/actions/get-stave-values/icon",
+			"Tooltip": "This action gets the paper size, first page stave number & second page stave number",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/get-stave-values/key",
+					"TitleAlignment": "middle"
+				}
+			]
 		}
 	],
 	"Category": "Sibelius Actions",

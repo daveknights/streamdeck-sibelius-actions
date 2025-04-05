@@ -63,6 +63,21 @@ class WebSocketConnection {
             };
         }
     }
+
+    getStaveValues(): Promise<StaveValues> {
+        return new Promise(resolve => {
+            const interval = setInterval(() => {
+                if (this.staveValues && this.staveValues.every(el => el !== '')) {
+                    clearInterval(interval);
+                    resolve(this.staveValues);
+                }
+            }, 250);
+        });
+    }
+
+    clearStaveValues() {
+        this.staveValues = ['', '', ''];
+    }
 }
 
 export const wSConnect = new WebSocketConnection();
