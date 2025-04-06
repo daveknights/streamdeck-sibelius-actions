@@ -24,7 +24,9 @@ export class PluginRunner extends SingletonAction<PluginRunnerSettings> {
             ev.action.setTitle(pluginTitle);
         }
 
-        if (categories && !this.uiCategoryOptions.length) {
+        if (categories) {
+            this.uiCategoryOptions.length = 0;
+
             for (const category of categories.sort()) {
                 this.uiCategoryOptions.push({ label: category, value: category });
             }
