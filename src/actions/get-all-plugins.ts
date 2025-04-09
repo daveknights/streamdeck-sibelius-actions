@@ -1,4 +1,5 @@
 import streamDeck, { action, type KeyDownEvent, SingletonAction } from "@elgato/streamdeck";
+import { wSConnect } from "../shared/web-socket-connection";
 import * as fs from 'fs';
 import path from 'path';
 import { PluginGlobalSettings } from "../shared/sibelius-actions.model";
@@ -40,6 +41,8 @@ export class GetAllPlugins extends SingletonAction<GetAllPluginsSettings> {
         if (ev.payload.settings.pluginPath) {
             const rawPath = ev.payload.settings.pluginPath;
             const folderPath:string = rawPath.substring(0, rawPath.lastIndexOf('/'));
+
+            wSConnect.closeWebSocket();
 
             await this.getPluginNames(folderPath).then(async pluginData => {
                 const allCategories = [];

@@ -74,6 +74,12 @@ class WebSocketConnection {
     clearStaveValues() {
         this.staveValues = ['', '', ''];
     }
+
+    closeWebSocket() {
+        this.sibeliusWebSocket?.close();
+        this.isConnected = false;
+        this.sibeliusToken = '';
+    }
 }
 
 export const wSConnect = new WebSocketConnection();
