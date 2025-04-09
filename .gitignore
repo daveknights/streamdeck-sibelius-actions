@@ -1,10 +1,7 @@
 .DS_Store
-.idea/**
-/src/DistributionTool
-com.elgato.template.streamDeckPlugin
 .vscode/**
 package.json
 package-lock.json
-.history
-__exclude
-.editorconfig
+com.daveknights.sibelius-actions.sdPlugin/bin/*
+com.daveknights.sibelius-actions.sdPlugin/logs/*
+node_modules

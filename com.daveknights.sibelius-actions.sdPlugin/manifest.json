@@ -1,0 +1,126 @@
+{
+	"Name": "Sibelius Actions",
+	"Version": "2.0.0",
+	"Author": "Dave Knights",
+	"Actions": [
+		{
+			"Name": "Get All Plugins",
+			"UUID": "com.daveknights.sibelius-actions.get-all-plugins",
+			"Icon": "imgs/actions/get-all-plugins/icon",
+			"Tooltip": "This action runs a plugin inside Sibelius.",
+			"PropertyInspectorPath": "ui/get-all-plugins.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/get-all-plugins/key",
+					"TitleAlignment": "middle"
+				}
+			]
+		},
+		{
+			"Name": "Plugin Runner",
+			"UUID": "com.daveknights.sibelius-actions.plugin-runner",
+			"Icon": "imgs/actions/plugin-runner/icon",
+			"Tooltip": "This action runs a plugin inside Sibelius",
+			"PropertyInspectorPath": "ui/plugin-runner.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/plugin-runner/key",
+					"TitleAlignment": "middle"
+				}
+			]
+		},
+		{
+			"Name": "Command Runner",
+			"UUID": "com.daveknights.sibelius-actions.command-runner",
+			"Icon": "imgs/actions/command-runner/icon",
+			"Tooltip": "This action runs a command inside Sibelius",
+			"PropertyInspectorPath": "ui/command-runner.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/command-runner/key",
+					"TitleAlignment": "middle"
+				}
+			]
+		},
+		{
+			"Name": "Get Stave Values",
+			"UUID": "com.daveknights.sibelius-actions.get-stave-values",
+			"Icon": "imgs/actions/get-stave-values/icon",
+			"Tooltip": "This action gets the paper size, first page stave number & second page stave number",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/get-stave-values/key",
+					"TitleAlignment": "middle"
+				}
+			]
+		},
+		{
+			"Name": "Plus Stave",
+			"UUID": "com.daveknights.sibelius-actions.plus-stave",
+			"Icon": "imgs/actions/plus-stave/icon",
+			"Tooltip": "This action adds a stave",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/plus-stave/key",
+					"FontSize": 15,
+					"TitleAlignment": "middle"
+				}
+			]
+		},
+		{
+			"Name": "Minus Stave",
+			"UUID": "com.daveknights.sibelius-actions.minus-stave",
+			"Icon": "imgs/actions/minus-stave/icon",
+			"Tooltip": "This action removes a stave",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/minus-stave/key",
+					"FontSize": 15,
+					"TitleAlignment": "middle"
+				}
+			]
+		}
+	],
+	"Category": "Sibelius Actions",
+	"CategoryIcon": "imgs/plugin/category-icon",
+	"CodePath": "bin/plugin.js",
+	"Description": "This lets you run a plugin and command in Sibelius",
+	"Icon": "imgs/plugin/marketplace",
+	"SDKVersion": 2,
+	"Software": {
+		"MinimumVersion": "6.4"
+	},
+	"OS": [
+		{
+			"Platform": "mac",
+			"MinimumVersion": "10.15"
+		},
+		{
+			"Platform": "windows",
+			"MinimumVersion": "10"
+		}
+	],
+	"Nodejs": {
+		"Version": "20",
+		"Debug": "enabled"
+	},
+	"UUID": "com.daveknights.sibelius-actions"
+}
