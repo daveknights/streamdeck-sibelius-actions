@@ -41,7 +41,7 @@ export class GetAllPlugins extends SingletonAction<GetAllPluginsSettings> {
         if (ev.payload.settings.pluginPath) {
             const rawPath = ev.payload.settings.pluginPath;
             const folderPath:string = rawPath.substring(0, rawPath.lastIndexOf('/'));
-
+            // Close web socket to force new connection with Sibelius so it can receive updated plugin list
             wSConnect.closeWebSocket();
 
             await this.getPluginNames(folderPath).then(async pluginData => {
@@ -63,6 +63,8 @@ export class GetAllPlugins extends SingletonAction<GetAllPluginsSettings> {
                 });
                 // visual feedback on the key
                 ev.action.showOk();
+                // Re-open the web socket
+                wSConnect.openWebSocket();
             });
         }
     }

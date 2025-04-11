@@ -16,6 +16,10 @@ class WebSocketConnection {
     staveValues!:StaveValues;
 
     constructor() {
+        this.openWebSocket();
+    }
+
+    openWebSocket() {
         if (!this.sibeliusWebSocket || this.sibeliusWebSocket.readyState === WebSocket.CLOSED) {
             this.sibeliusWebSocket = new WebSocket('ws://127.0.0.1:1898');
 
