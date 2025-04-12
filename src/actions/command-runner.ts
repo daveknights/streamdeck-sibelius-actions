@@ -56,7 +56,7 @@ export class CommandRunner extends SingletonAction<CommandRunnerSettings> {
      * Use the plugin name to send to Sibelius
      */
     override async onKeyDown(ev: KeyDownEvent<CommandRunnerSettings>): Promise<void> {
-        wSConnect.sendPayload({ "message" : "invokeCommands", "commands": [ev.payload.settings.commandId] });
+        wSConnect.openWebSocket()?.then((isOpen:boolean) => wSConnect.sendPayload({ "message" : "invokeCommands", "commands": [ev.payload.settings.commandId] }));
     };
 }
 

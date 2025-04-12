@@ -89,7 +89,7 @@ export class PluginRunner extends SingletonAction<PluginRunnerSettings> {
      * Use the plugin name to send to Sibelius
      */
     override async onKeyDown(ev: KeyDownEvent<PluginRunnerSettings>): Promise<void> {
-        wSConnect.sendPayload({ "message": "invokePlugin", "name": ev.payload.settings.pluginName });
+        wSConnect.openWebSocket()?.then((isOpen:boolean) => wSConnect.sendPayload({ "message": "invokePlugin", "name": ev.payload.settings.pluginName }));
     };
 }
 

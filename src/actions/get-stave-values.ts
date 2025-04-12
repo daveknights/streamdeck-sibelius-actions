@@ -21,7 +21,7 @@ export class GetStaveValues extends SingletonAction<GetStaveValuesSettings> {
      * Set the PlusStave & MinusStave key title
      */
     override async onKeyDown(ev: KeyDownEvent<GetStaveValuesSettings>): Promise<void> {
-        wSConnect.sendPayload({ "message": "invokePlugin", "name": 'PartCalcStaves' });
+        wSConnect.openWebSocket()?.then((isOpen:boolean) => wSConnect.sendPayload({ "message": "invokePlugin", "name": 'PartCalcStaves' }));
 
         wSConnect.getStaveValues().then((values:StaveValues) => {
             const [paperSize, firstPage, secondPage] = <StaveValues>values;

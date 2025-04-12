@@ -63,8 +63,6 @@ export class GetAllPlugins extends SingletonAction<GetAllPluginsSettings> {
                 });
                 // visual feedback on the key
                 ev.action.showOk();
-                // Re-open the web socket
-                wSConnect.openWebSocket();
             });
         }
     }

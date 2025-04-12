@@ -1,4 +1,3 @@
-// import streamDeck from "@elgato/streamdeck";
 import WebSocket from 'ws';
 import type { Payload, SibeliusResponse, StaveValues } from "../shared/sibelius-actions.model";
 
@@ -15,35 +14,38 @@ class WebSocketConnection {
     payload!:Payload;
     staveValues!:StaveValues;
 
-    constructor() {
-        this.openWebSocket();
-    }
+    openWebSocket(): Promise<boolean> {
+        return new Promise (resolve => {
+            if (this.sibeliusToken && this.isConnected) {
+                resolve(true);
+            } else if (!this.sibeliusWebSocket || this.sibeliusWebSocket.readyState === WebSocket.CLOSED) {
+                this.sibeliusWebSocket = new WebSocket('ws://127.0.0.1:1898');
 
-    openWebSocket() {
-        if (!this.sibeliusWebSocket || this.sibeliusWebSocket.readyState === WebSocket.CLOSED) {
-            this.sibeliusWebSocket = new WebSocket('ws://127.0.0.1:1898');
+                this.sibeliusWebSocket.on('message', (data: string) => {
+                    const jsonObj:SibeliusResponse = JSON.parse(data);
 
-            this.sibeliusWebSocket.on('message', (data: string) => {
-                const jsonObj:SibeliusResponse = JSON.parse(data);
+                    if (jsonObj.message === 'connectResponse' && jsonObj.result === true) {
+                        this.sibeliusToken = jsonObj.sessionToken;
+                        this.isConnected = true;
+                        this.sendPayload(this.payload);
+                    }
 
-                if (jsonObj.message === 'connectResponse' && jsonObj.result === true) {
-                    this.sibeliusToken = jsonObj.sessionToken;
-                    this.isConnected = true;
-                    this.sendPayload(this.payload);
-                }
+                    if (jsonObj.returnValue) {
+                        const [paperSize, firstPage, secondPage] = jsonObj.returnValue.split('-');
+                        this.staveValues = <StaveValues>[paperSize, firstPage, secondPage];
+                    }
+                });
 
-                if (jsonObj.returnValue) {
-                    const [paperSize, firstPage, secondPage] = jsonObj.returnValue.split('-');
-                    this.staveValues = <StaveValues>[paperSize, firstPage, secondPage];
-                }
-            });
+                this.sibeliusWebSocket.on('open', () => resolve(true));
 
-            this.sibeliusWebSocket?.on('close', () => {
-                this.sibeliusWebSocket = null;
-                this.sibeliusToken = '';
-                this.payload = <Payload>{};
-            });
-        }
+                this.sibeliusWebSocket?.on('close', () => {
+                    this.sibeliusWebSocket = null;
+                    this.sibeliusToken = '';
+                    this.isConnected = false;
+                    this.payload = <Payload>{};
+                });
+            }
+        });
     }
 
     addToConnectMessage(pluginList: string[]) {
