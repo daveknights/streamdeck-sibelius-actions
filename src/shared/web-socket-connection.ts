@@ -1,5 +1,6 @@
 import WebSocket from 'ws';
-import type { Payload, SibeliusResponse, StaveValues } from "../shared/sibelius-actions.model";
+import type { Payload, SibeliusResponse } from "../shared/sibelius-actions.model";
+import streamDeck from "@elgato/streamdeck";
 
 class WebSocketConnection {
     sibeliusWebSocket!: WebSocket | null;
@@ -12,7 +13,6 @@ class WebSocketConnection {
         'plugins': {}
     };
     payload!:Payload;
-    staveValues!:StaveValues;
 
     openWebSocket(): Promise<boolean> {
         return new Promise (resolve => {
@@ -32,7 +32,15 @@ class WebSocketConnection {
 
                     if (jsonObj.returnValue) {
                         const [paperSize, firstPage, secondPage] = jsonObj.returnValue.split('-');
-                        this.staveValues = <StaveValues>[paperSize, firstPage, secondPage];
+
+                        streamDeck.actions.forEach((action) => {
+                            if (action.manifestId.endsWith('plus-stave')) {
+                                action.setTitle(`${paperSize}\n\n${parseInt(firstPage) + 1} - ${parseInt(secondPage) + 1}`);
+
+                            } else if (action.manifestId.endsWith('minus-stave')) {
+                                action.setTitle(`${paperSize}\n\n${parseInt(firstPage) - 1} - ${parseInt(secondPage) - 1}`);
+                            }
+                        });
                     }
                 });
 
@@ -64,21 +72,6 @@ class WebSocketConnection {
                 this.sibeliusWebSocket?.send(JSON.stringify(this.connectMsg));
             };
         }
-    }
-
-    getStaveValues(): Promise<StaveValues> {
-        return new Promise(resolve => {
-            const interval = setInterval(() => {
-                if (this.staveValues && this.staveValues.every(el => el !== '')) {
-                    clearInterval(interval);
-                    resolve(this.staveValues);
-                }
-            }, 250);
-        });
-    }
-
-    clearStaveValues() {
-        this.staveValues = ['', '', ''];
     }
 
     closeWebSocket() {

@@ -17,9 +17,3 @@ export type SibeliusResponse = {
     result: boolean,
     returnValue: string,
 }
-
-export type StaveValues = [
-    string,
-    string,
-    string,
-]

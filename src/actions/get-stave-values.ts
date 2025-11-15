@@ -1,6 +1,6 @@
 import streamDeck, { action, KeyDownEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 import { wSConnect } from "../shared/web-socket-connection";
-import type { PluginGlobalSettings, StaveValues } from "../shared/sibelius-actions.model";
+import type { PluginGlobalSettings } from "../shared/sibelius-actions.model";
 
 @action({ UUID: "com.daveknights.sibelius-actions.get-stave-values" })
 export class GetStaveValues extends SingletonAction<GetStaveValuesSettings> {
@@ -16,27 +16,10 @@ export class GetStaveValues extends SingletonAction<GetStaveValuesSettings> {
         }
     };
     /**
-     * Use the plugin name to send to Sibelius
-     * Retrieve the paper size & stave values
-     * Set the PlusStave & MinusStave key title
+     * Invoke the plugin named 'PartCalcStaves' in Sibelius
      */
     override async onKeyDown(ev: KeyDownEvent<GetStaveValuesSettings>): Promise<void> {
         wSConnect.openWebSocket()?.then((isOpen:boolean) => wSConnect.sendPayload({ "message": "invokePlugin", "name": 'PartCalcStaves' }));
-
-        wSConnect.getStaveValues().then((values:StaveValues) => {
-            const [paperSize, firstPage, secondPage] = <StaveValues>values;
-
-            streamDeck.actions.forEach((action) => {
-                if (action.manifestId.endsWith('plus-stave')) {
-                    action.setTitle(`${paperSize}\n\n${parseInt(firstPage) + 1} - ${parseInt(secondPage) + 1}`);
-
-                } else if (action.manifestId.endsWith('minus-stave')) {
-                    action.setTitle(`${paperSize}\n\n${parseInt(firstPage) - 1} - ${parseInt(secondPage) - 1}`);
-                }
-            });
-
-            wSConnect.clearStaveValues();
-        });
     };
 }
 
